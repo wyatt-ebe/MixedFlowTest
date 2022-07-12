@@ -47,13 +47,11 @@ class ViewController: UIViewController {
   
   @objc
   func didTapNext() {
-    let model = ContentModel(closeFlow: doCloseSwiftUIFlow,
-                             completeFlow: doContinueFromSwiftUIFlow)
-    let contentView = ContentView(model: model)
-    let hostingView = UIHostingController(rootView: contentView)
-    hostingView.view.insetsLayoutMarginsFromSafeArea = false
+    let hostingVC = SwiftUIViewFactory().makeViewController(closeFlow: doCloseSwiftUIFlow,
+                                                            completeFlow: doContinueFromSwiftUIFlow)
+    hostingVC.view.insetsLayoutMarginsFromSafeArea = false
 
-    let nav = UINavigationController(rootViewController: hostingView)
+    let nav = UINavigationController(rootViewController: hostingVC)
     nav.modalPresentationStyle = .fullScreen
     present(nav, animated: true)
     presentedNav = nav

@@ -1,5 +1,5 @@
 //
-//  SwiftUIFlow.swift
+//  Views.swift
 //  MixedFlowTest
 //
 //  Created by Wyatt on 7/11/22.
@@ -8,22 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct SwiftUIViewFactory {
-  func makeView(closeFlow: @escaping () -> Void,
-                completeFlow: @escaping () -> Void) -> some View {
-    let model = ContentModel(closeFlow: closeFlow,
-                             completeFlow: completeFlow)
-    return ContentView(model: model)
-  }
-}
-
-struct ContentView: View {
-  @StateObject var model: ContentModel
+struct First: View {
+  @StateObject var model: FlowModel
   
   var body: some View {
     NavigationView() {
       VStack(spacing: 16) {
-        Text("This is ContentView")
+        Text("This is FirstView")
         NavigationLink("Go To Second",
                        isActive: $model.secondIsActive) {
           Second(model: model)
@@ -40,30 +31,8 @@ struct ContentView: View {
   }
 }
 
-class ContentModel: ObservableObject {
-  @Published var secondIsActive: Bool = false {
-    didSet {
-      print("secondIsActive didSet: \(secondIsActive)")
-    }
-  }
-  @Published var thirdIsActive: Bool = false {
-    didSet {
-      print("thirdIsActive didSet: \(thirdIsActive)")
-    }
-  }
-  
-  var closeFlow: () -> Void
-  var completeFlow: () -> Void
-  
-  init(closeFlow: @escaping () -> Void,
-       completeFlow: @escaping () -> Void) {
-    self.closeFlow = closeFlow
-    self.completeFlow = completeFlow
-  }
-}
-
 struct Second: View {
-  @ObservedObject var model: ContentModel
+  @ObservedObject var model: FlowModel
   
   var body: some View {
     VStack(spacing: 16) {
@@ -83,7 +52,7 @@ struct Second: View {
 }
 
 struct Third: View {
-  @ObservedObject var model: ContentModel
+  @ObservedObject var model: FlowModel
   
   var body: some View {
     VStack(spacing: 16) {
